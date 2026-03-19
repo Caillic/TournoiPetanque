@@ -3,136 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tournoi de Pétanque 2026</title>
+<title>Tournoi de P茅tanque 2026</title>
 <style>
   :root {
-    --vert: #1A5C2E;
-    --vert-m: #2D8A4E;
-    --vert-c: #E8F5E9;
-    --or: #F9A825;
-    --gris: #F5F5F5;
-    --texte: #212121;
-    --secondaire: #757575;
-    --border: #E0E0E0;
+    --ciel:     #E0F4FF;
+    --soleil:   #FFD166;
+    --soleil-d: #F4A400;
+    --sable:    #FFF8ED;
+    --menthe:   #D4F0E0;
+    --menthe-d: #2E9E5B;
+    --lavande:  #EDE7FF;
+    --mer:      #5BB8D4;
+    --mer-d:    #1A7A9A;
+    --peche:    #FFE8D6;
+    --corail:   #FF8C69;
+    --texte:    #2D2D2D;
+    --gris:     #8A8A8A;
+    --border:   #EDE4D0;
+    --blanc:    #FFFDF8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #F0F4F0; color: var(--texte); min-height: 100vh; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #FFFBF2; color: var(--texte); min-height: 100vh; }
 
-  header { background: var(--vert); color: #fff; padding: 1.5rem 1rem 1rem; text-align: center; }
-  header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: .5px; }
-  header p  { font-size: .85rem; opacity: .8; margin-top: 4px; }
-  .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.15); border-radius: 20px; padding: 3px 12px; font-size: .75rem; margin-top: 10px; }
-  .dot { width: 7px; height: 7px; background: #69F0AE; border-radius: 50%; animation: pulse 1.4s ease-in-out infinite; }
+  header { background: linear-gradient(135deg, #5BB8D4 0%, #3DAA6A 100%); color: #fff; padding: 1.6rem 1rem 1.2rem; text-align: center; }
+  header h1 { font-size: 1.55rem; font-weight: 700; letter-spacing: .3px; }
+  header p  { font-size: .85rem; opacity: .9; margin-top: 4px; }
+  .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.2); border-radius: 20px; padding: 3px 14px; font-size: .75rem; margin-top: 10px; }
+  .dot { width: 7px; height: 7px; background: var(--soleil); border-radius: 50%; animation: pulse 1.4s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-  main { max-width: 720px; margin: 0 auto; padding: 1.25rem 1rem 3rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  main { max-width: 740px; margin: 0 auto; padding: 1.25rem 1rem 3rem; display: flex; flex-direction: column; gap: 1.25rem; }
 
-  .card { background: #fff; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
-  .card-header { background: var(--vert-c); padding: .6rem 1rem; display: flex; align-items: center; justify-content: space-between; }
-  .card-header h2 { font-size: .9rem; font-weight: 600; color: var(--vert); }
-  .card-header span { font-size: .75rem; color: var(--secondaire); }
+  .card { background: var(--blanc); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; }
+  .card-header { background: var(--ciel); padding: .65rem 1rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .card-header h2 { font-size: .9rem; font-weight: 700; color: var(--mer-d); }
+  .card-header span { font-size: .75rem; color: var(--gris); }
 
   /* Classement */
   table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-  th { background: var(--vert); color: #fff; padding: 8px 10px; text-align: center; font-weight: 600; font-size: .75rem; letter-spacing: .3px; }
+  th { background: var(--mer-d); color: #fff; padding: 8px 10px; text-align: center; font-weight: 600; font-size: .75rem; letter-spacing: .3px; }
   th:first-child { text-align: left; padding-left: 14px; }
-  td { padding: 9px 10px; text-align: center; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 10px; text-align: center; border-bottom: 1px solid #F5EDD8; }
   td:first-child { text-align: left; padding-left: 14px; }
   tr:last-child td { border-bottom: none; }
-  tr.finalist { background: #E8F5E9; }
-  tr.finalist td:first-child { font-weight: 700; color: var(--vert); }
-  .pts-val { font-weight: 700; color: var(--vert); font-size: 1rem; }
-  .rank-num { color: var(--secondaire); font-size: .75rem; min-width: 18px; display: inline-block; }
-  .badge-finale { display: inline-block; background: var(--or); color: #4E3200; font-size: .65rem; padding: 1px 6px; border-radius: 10px; margin-left: 5px; font-weight: 700; vertical-align: middle; }
-
-  /* Calendrier */
-  .journee { padding: .8rem 1rem; border-bottom: 1px solid var(--border); }
-  .journee:last-child { border-bottom: none; }
-  .journee-titre { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .j-badge { background: var(--vert); color: #fff; font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
-  .j-date { font-size: .8rem; color: var(--secondaire); }
-  .match-line { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: .82rem; }
-  .match-vs { color: var(--secondaire); font-size: .75rem; flex-shrink: 0; }
-  .match-score { font-weight: 700; font-size: .85rem; color: var(--vert); background: var(--vert-c); padding: 1px 8px; border-radius: 6px; }
-  .match-result { font-size: .72rem; color: #5D4037; background: #EFEBE9; padding: 1px 7px; border-radius: 6px; margin-left: 4px; }
-  .bye-text { font-size: .75rem; color: var(--secondaire); font-style: italic; margin-top: 4px; }
+  tr:nth-child(even) { background: #FDFAF2; }
+  tr.finalist { background: var(--menthe) !important; }
+  tr.finalist td:first-child { font-weight: 700; color: var(--menthe-d); }
+  .pts-val { font-weight: 700; color: var(--soleil-d); font-size: 1rem; }
+  .rank-num { color: var(--gris); font-size: .75rem; min-width: 18px; display: inline-block; }
+  .badge-finale { display: inline-block; background: var(--soleil); color: #7A4800; font-size: .65rem; padding: 1px 7px; border-radius: 10px; margin-left: 5px; font-weight: 700; vertical-align: middle; }
 
   /* Finale */
-  .finale-card { background: linear-gradient(135deg, #1A5C2E 0%, #2D8A4E 100%); color: #fff; border-radius: 12px; padding: 1.2rem 1.4rem; text-align: center; }
+  .finale-card { background: linear-gradient(135deg, #5BB8D4, #3DAA6A); color: #fff; border-radius: 14px; padding: 1.3rem 1.5rem; text-align: center; }
   .finale-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
-  .finale-card p  { font-size: .85rem; opacity: .85; }
+  .finale-card p  { font-size: .85rem; opacity: .9; }
   .vs-block { display: flex; align-items: center; justify-content: center; gap: 14px; margin: .8rem 0; }
-  .finalist-name { font-size: 1rem; font-weight: 700; background: rgba(255,255,255,.15); padding: 6px 14px; border-radius: 8px; }
-  .vs-sep { font-size: .75rem; opacity: .6; }
+  .finalist-name { font-size: .95rem; font-weight: 700; background: rgba(255,255,255,.2); padding: 6px 16px; border-radius: 8px; }
+  .vs-sep { font-size: .75rem; opacity: .7; }
 
-  /* Config banner */
-  .config-banner { background: #FFF8E1; border: 1px solid #FFD54F; border-radius: 10px; padding: .9rem 1.1rem; font-size: .82rem; color: #5D4037; line-height: 1.7; }
-  .config-banner strong { color: #BF360C; }
-  .config-banner code { background: #FBE9E7; padding: 1px 5px; border-radius: 4px; font-size: .78rem; font-family: monospace; }
+  /* Calendrier */
+  .journee { padding: .9rem 1rem; border-bottom: 1px solid #F0E8D0; }
+  .journee:last-child { border-bottom: none; }
+  .journee-titre { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .j-badge { background: var(--mer); color: #fff; font-size: .7rem; font-weight: 700; padding: 2px 10px; border-radius: 10px; }
+  .j-date { font-size: .8rem; color: var(--gris); }
 
-  /* Refresh */
-  .refresh-bar { text-align: center; font-size: .72rem; color: var(--secondaire); padding: .5rem; }
-  #last-update { font-weight: 600; color: var(--vert-m); }
+  .match-block { background: var(--sable); border: 1px solid #EDE0C4; border-radius: 10px; margin-bottom: 6px; overflow: hidden; }
+  .match-block.has-score { background: var(--blanc); border-color: #E8D898; }
+  .match-block:last-of-type { margin-bottom: 0; }
+
+  /* Ligne 茅quipes */
+  .match-top { display: flex; align-items: center; gap: 6px; padding: 8px 12px 4px; }
+  .match-eq1 { font-weight: 700; font-size: .88rem; flex: 1; text-align: right; color: var(--texte); }
+  .match-vs  { color: var(--gris); font-size: .72rem; flex-shrink: 0; padding: 0 3px; }
+  .match-eq2 { font-weight: 700; font-size: .88rem; flex: 1; color: var(--texte); }
+
+  /* Terrain */
+  .terrain-wrap { display: flex; justify-content: center; padding: 0 12px 5px; }
+  .terrain-badge { font-size: .68rem; padding: 2px 10px; border-radius: 10px; background: var(--ciel); color: var(--mer-d); font-weight: 500; }
+  .terrain-badge.dom { background: var(--menthe); color: var(--menthe-d); font-weight: 700; }
+
+  /* Scores */
+  .match-bottom { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 4px 12px 8px; flex-wrap: wrap; }
+  .score-grp { display: flex; align-items: center; gap: 5px; }
+  .score-lbl { font-size: .65rem; color: var(--gris); letter-spacing: .3px; text-transform: uppercase; }
+  .score-pair { display: flex; align-items: center; gap: 4px; }
+  .score-box { font-weight: 700; font-size: .9rem; background: #fff; border: 1px solid var(--border); border-radius: 5px; padding: 2px 8px; min-width: 30px; text-align: center; color: var(--texte); }
+  .score-dash { color: var(--gris); font-size: .8rem; }
+  .mene-sep { color: #D0C8B0; font-size: 1rem; margin: 0 2px; }
+
+  .res-badge { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
+  .res-v    { background: var(--menthe); color: var(--menthe-d); }
+  .res-nul  { background: var(--lavande); color: #5E35B1; }
+
+  .bye-line { font-size: .75rem; color: var(--gris); font-style: italic; margin-top: 6px; padding-left: 2px; }
+  .refresh-bar { text-align: center; font-size: .72rem; color: var(--gris); padding: .5rem; }
+  #last-update { font-weight: 600; color: var(--menthe-d); }
 
   @media(max-width:480px) {
     header h1 { font-size: 1.2rem; }
-    td, th { padding: 7px 6px; font-size: .78rem; }
+    .match-eq1, .match-eq2 { font-size: .8rem; }
+    td, th { padding: 7px 5px; font-size: .78rem; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Tournoi de Pétanque 2026</h1>
-  <p>Annealsys · I2A · Aromandise · Capelec · Quantum · APF · Diadom</p>
+  <h1>馃幆 Tournoi de P茅tanque 2026</h1>
+  <p>Annealsys 路 I2A 路 Aromandise 路 Capelec 路 Quantum 路 APF 路 Diadom</p>
   <div class="live-badge"><span class="dot"></span> Scores en direct</div>
 </header>
 
 <main>
 
-  <!-- BANNIÈRE DE CONFIGURATION -->
-  <div class="config-banner" id="config-banner">
-    <strong>Configuration requise :</strong> ouvrez ce fichier dans un éditeur de texte et remplacez la valeur de <code>SHEET_URL</code> (ligne 2 du script) par l'URL CSV de votre Google Sheet.<br>
-    Suivez le tutoriel fourni par Claude pour obtenir cette URL.
-  </div>
-
-  <!-- CLASSEMENT -->
   <div class="card">
     <div class="card-header">
       <h2>Classement</h2>
-      <span id="classement-info">—</span>
+      <span id="classement-info">鈥?/span>
     </div>
-    <table id="classement-table">
-      <thead><tr><th>Équipe</th><th>MJ</th><th>V</th><th>N</th><th>D</th><th>Pts</th></tr></thead>
+    <table>
+      <thead><tr><th>脡quipe</th><th>MJ</th><th>V</th><th>N</th><th>D</th><th>Pts</th></tr></thead>
       <tbody id="classement-body">
-        <tr><td colspan="6" style="text-align:center;color:#aaa;padding:2rem">Chargement…</td></tr>
+        <tr><td colspan="6" style="text-align:center;color:#ccc;padding:2rem">Chargement鈥?/td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- FINALE -->
-  <div class="finale-card" id="finale-card">
-    <h2>Finale — 12 juin 2026</h2>
+  <div class="finale-card">
+    <h2>馃弳 Finale 鈥?12 juin 2026</h2>
     <div class="vs-block">
       <span class="finalist-name" id="fin1">1er de ligue</span>
       <span class="vs-sep">VS</span>
       <span class="finalist-name" id="fin2">2e de ligue</span>
     </div>
-    <p>Terrain neutre · 1 mène</p>
+    <p>Terrain neutre &nbsp;路&nbsp; 1 m猫ne</p>
   </div>
 
-  <!-- CALENDRIER / RÉSULTATS -->
   <div class="card">
     <div class="card-header">
-      <h2>Calendrier &amp; Résultats</h2>
-      <span>7 journées · 3 matchs simultanés</span>
+      <h2>Calendrier &amp; R茅sultats</h2>
+      <span>7 journ茅es 路 3 matchs simultan茅s</span>
     </div>
     <div id="calendrier-body">
-      <div style="text-align:center;color:#aaa;padding:2rem;font-size:.85rem">Chargement…</div>
+      <div style="text-align:center;color:#ccc;padding:2rem">Chargement鈥?/div>
     </div>
   </div>
 
-  <div class="refresh-bar">Mise à jour automatique toutes les 60 s · Dernière : <span id="last-update">—</span></div>
+  <div class="refresh-bar">Mise 脿 jour automatique toutes les 60 s 路 Derni猫re : <span id="last-update">鈥?/span></div>
 
 </main>
 
@@ -140,176 +158,159 @@
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHrRVo487HmpBLvZ2BYj1ImgPTDGaOyNQT-yOqp1_efyqACDhZXFQWYGPwkz9QzH6NDNhP1UGx-ZIC/pub?gid=163485932&single=true&output=csv";
 
 const EQUIPES = ["Annealsys","I2A","Aromandise","Capelec","Quantum","APF","Diadom"];
+const TERRAINS_DOM = {
+  "Annealsys":"Terrain Annealsys","I2A":"Terrain I2A",
+  "Aromandise":"Terrain Aromandise","Quantum":"Terrain Quantum","APF":"Terrain APF"
+};
 
 function buildRR() {
-  const n = 7, journees = [], teams = [...Array(n).keys()];
-  for (let r = 0; r < n; r++) {
-    const bye = r, rest = teams.filter(t => t !== bye);
-    const matches = Array.from({length: (n-1)/2}, (_,i) => [rest[i], rest[n-2-i]]);
-    journees.push({bye, matches});
+  const n=7,journees=[],teams=[...Array(n).keys()];
+  for(let r=0;r<n;r++){
+    const bye=r,rest=teams.filter(t=>t!==bye);
+    journees.push({bye,matches:Array.from({length:(n-1)/2},(_,i)=>[rest[i],rest[n-2-i]])});
   }
   return journees;
 }
 
-const FERIES = new Set([
-  "2025-11-01","2025-11-11",
-  "2026-01-01","2026-04-13","2026-05-01","2026-05-08","2026-05-21","2026-06-01"
-]);
+const FERIES=new Set(["2025-11-01","2025-11-11","2026-01-01","2026-04-13","2026-05-01","2026-05-08","2026-05-21","2026-06-01"]);
 
-function buildDates() {
-  const dates = [];
-  let d = new Date("2026-06-12T12:00:00Z");
-  while (dates.length < 7) {
-    d = new Date(d - 7*864e5);
-    if (!FERIES.has(d.toISOString().slice(0,10))) dates.unshift(new Date(d));
-  }
+function buildDates(){
+  const dates=[];let d=new Date("2026-06-12T12:00:00Z");
+  while(dates.length<7){d=new Date(d-7*864e5);if(!FERIES.has(d.toISOString().slice(0,10)))dates.unshift(new Date(d));}
   return dates;
 }
 
-const JOURNEES = buildRR();
-const DATES = buildDates();
+const JOURNEES=buildRR(), DATES=buildDates();
 
-function fmt(d) {
-  return d.toLocaleDateString("fr-FR", {weekday:"short", day:"2-digit", month:"long", year:"numeric"});
-}
+function fmt(d){return d.toLocaleDateString("fr-FR",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});}
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):"";}
 
-function parseCSV(text) {
-  return text.trim().split("\n").map(line => {
-    const cols = []; let cur = "", inQ = false;
-    for (const ch of line) {
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ""; }
-      else cur += ch;
+function parseCSV(text){
+  return text.trim().split("\n").map(line=>{
+    const cols=[];let cur="",inQ=false;
+    for(const ch of line){
+      if(ch==='"'){inQ=!inQ;}
+      else if(ch===','&&!inQ){cols.push(cur.trim());cur="";}
+      else cur+=ch;
     }
-    cols.push(cur.trim());
-    return cols;
+    cols.push(cur.trim());return cols;
   });
 }
 
-function computeStandings(matchData) {
-  const stats = {};
-  EQUIPES.forEach(e => stats[e] = {pts:0,v:0,n:0,d:0,mj:0});
-  matchData.forEach(row => {
-    const [eq1,,,,, eq2, res] = row;
-    if (!res || res === "" || !stats[eq1] || !stats[eq2]) return;
-    stats[eq1].mj++; stats[eq2].mj++;
-    if (res === "V " + eq1 || res === "V "+eq1) { stats[eq1].pts+=3; stats[eq1].v++; stats[eq2].d++; }
-    else if (res === "V " + eq2 || res === "V "+eq2) { stats[eq2].pts+=3; stats[eq2].v++; stats[eq1].d++; }
-    else if (res === "Nul") { stats[eq1].pts++; stats[eq1].n++; stats[eq2].pts++; stats[eq2].n++; }
+// Colonnes : 0=J | 1=Date | 2=脡q1 | 3=M1脡q1 | 4=M1脡q2 | 5=M2脡q1 | 6=M2脡q2 | 7=脡q2 | 8=R茅sultat | 9=Terrain | 10=Exempt茅
+
+function computeStandings(rows){
+  const stats={};
+  EQUIPES.forEach(e=>stats[e]={pts:0,v:0,n:0,d:0,mj:0});
+  rows.forEach(r=>{
+    const eq1=(r[2]||"").trim(),eq2=(r[7]||"").trim(),res=(r[8]||"").trim();
+    if(!res||!stats[eq1]||!stats[eq2])return;
+    stats[eq1].mj++;stats[eq2].mj++;
+    if(res==="V "+eq1){stats[eq1].pts+=3;stats[eq1].v++;stats[eq2].d++;}
+    else if(res==="V "+eq2){stats[eq2].pts+=3;stats[eq2].v++;stats[eq1].d++;}
+    else if(res.toLowerCase()==="nul"){stats[eq1].pts++;stats[eq1].n++;stats[eq2].pts++;stats[eq2].n++;}
   });
-  return EQUIPES.map(e => ({name:e,...stats[e]})).sort((a,b)=>b.pts-a.pts||b.v-a.v);
+  return EQUIPES.map(e=>({name:e,...stats[e]})).sort((a,b)=>b.pts-a.pts||b.v-a.v);
 }
 
-function renderClassement(standings) {
-  const body = document.getElementById("classement-body");
-  body.innerHTML = standings.map((s,i) => {
-    const fin = i < 2 ? "finalist" : "";
-    const badge = i < 2 ? `<span class="badge-finale">Finale</span>` : "";
-    return `<tr class="${fin}">
-      <td><span class="rank-num">${i+1}.</span> ${s.name}${badge}</td>
-      <td>${s.mj}</td><td>${s.v}</td><td>${s.n}</td><td>${s.d}</td>
-      <td class="pts-val">${s.pts}</td>
-    </tr>`;
+function renderClassement(standings){
+  document.getElementById("classement-body").innerHTML=standings.map((s,i)=>{
+    const fin=i<2?"finalist":"";
+    const badge=i<2?`<span class="badge-finale">Finale</span>`:"";
+    return`<tr class="${fin}"><td><span class="rank-num">${i+1}.</span> ${s.name}${badge}</td><td>${s.mj}</td><td>${s.v}</td><td>${s.n}</td><td>${s.d}</td><td class="pts-val">${s.pts}</td></tr>`;
   }).join("");
-
-  const fin1 = document.getElementById("fin1");
-  const fin2 = document.getElementById("fin2");
-  if (standings[0] && standings[0].mj > 0) fin1.textContent = standings[0].name;
-  if (standings[1] && standings[1].mj > 0) fin2.textContent = standings[1].name;
-
-  const played = standings.reduce((a,s)=>a+s.mj,0)/2;
-  document.getElementById("classement-info").textContent = `${Math.round(played)}/21 matchs joués`;
+  if(standings[0]?.mj>0)document.getElementById("fin1").textContent=standings[0].name;
+  if(standings[1]?.mj>0)document.getElementById("fin2").textContent=standings[1].name;
+  const played=standings.reduce((a,s)=>a+s.mj,0)/2;
+  document.getElementById("classement-info").textContent=`${Math.round(played)}/21 matchs jou茅s`;
 }
 
-function renderCalendrier(matchData) {
-  const lookup = {};
-  matchData.forEach(row => {
-    const key = (row[0]||"").trim() + "|" + (row[5]||"").trim();
-    const key2 = (row[5]||"").trim() + "|" + (row[0]||"").trim();
-    const scoreStr = (row[2]||"") && (row[3]||"") ? `${row[2]}-${row[3]} / ${row[4]||"?"}-${row[5]||"?"}` : null;
-    const res = (row[6]||"").trim();
-    lookup[key] = {score: row[2] ? `${row[2]}+${row[4] ? row[4]:"?"} — ${row[3]}+${row[5]?"":row[5]}` : null, res, raw: row};
+function renderCalendrier(rows){
+  const data={};
+  rows.forEach(r=>{
+    const eq1=(r[2]||"").trim(),eq2=(r[7]||"").trim();
+    if(eq1&&eq2)data[eq1+"|"+eq2]=r;
   });
 
-  let html = "";
-  JOURNEES.forEach((j, ji) => {
-    html += `<div class="journee">
-      <div class="journee-titre">
-        <span class="j-badge">J${ji+1}</span>
-        <span class="j-date">${fmt(DATES[ji])}</span>
-      </div>`;
-    j.matches.forEach(([e1,e2]) => {
-      const n1 = EQUIPES[e1], n2 = EQUIPES[e2];
-      const found = matchData.find(row =>
-        ((row[0]||"").trim()===n1 && (row[5]||"").trim()===n2) ||
-        ((row[0]||"").trim()===n2 && (row[5]||"").trim()===n1)
-      );
-      let scoreHtml = "", resultHtml = "";
-      if (found) {
-        const r = (found[6]||"").trim();
-        const m1e1=found[2], m1e2=found[3], m2e1=found[4], m2e2=found[5];
-        if (m1e1) scoreHtml = `<span class="match-score">${m1e1}+${m2e1||"?"} — ${m1e2}+${m2e2||"?"}</span>`;
-        if (r) resultHtml = `<span class="match-result">${r}</span>`;
+  let html="";
+  JOURNEES.forEach((j,ji)=>{
+    html+=`<div class="journee"><div class="journee-titre"><span class="j-badge">J${ji+1}</span><span class="j-date">${cap(fmt(DATES[ji]))}</span></div>`;
+
+    j.matches.forEach(([e1i,e2i])=>{
+      const n1=EQUIPES[e1i],n2=EQUIPES[e2i];
+      const row=data[n1+"|"+n2]||data[n2+"|"+n1]||null;
+      const flipped=row&&(row[2]||"").trim()===n2;
+
+      // Terrain
+      const terrain=row?(row[9]||"").trim():"";
+      const isDom=terrain&&(TERRAINS_DOM[n1]===terrain||TERRAINS_DOM[n2]===terrain);
+      const terrainHtml=terrain
+        ?`<div class="terrain-wrap"><span class="terrain-badge${isDom?" dom":""}">${isDom?"鈽?":"馃搷 "}${terrain}</span></div>`
+        :"";
+
+      // Scores
+      let bottomHtml="";
+      if(row){
+        const get=(i)=>(row[i]||"").trim();
+        const m1l=flipped?get(4):get(3), m1r=flipped?get(3):get(4);
+        const m2l=flipped?get(6):get(5), m2r=flipped?get(5):get(6);
+        const res=get(8);
+        const hasScore=m1l!==""||m1r!=="";
+        if(hasScore){
+          let resBadge="";
+          if(res){
+            const low=res.toLowerCase();
+            if(low==="nul"){resBadge=`<span class="res-badge res-nul">Nul</span>`;}
+            else{const w=res.replace(/^V\s*/i,"").trim();resBadge=`<span class="res-badge res-v">Victoire ${w}</span>`;}
+          }
+          bottomHtml=`<div class="match-bottom">
+            <span class="score-grp"><span class="score-lbl">M1</span><span class="score-pair"><span class="score-box">${m1l||"鈥?}</span><span class="score-dash">鈥?/span><span class="score-box">${m1r||"鈥?}</span></span></span>
+            <span class="mene-sep">|</span>
+            <span class="score-grp"><span class="score-lbl">M2</span><span class="score-pair"><span class="score-box">${m2l||"鈥?}</span><span class="score-dash">鈥?/span><span class="score-box">${m2r||"鈥?}</span></span></span>
+            ${resBadge}
+          </div>`;
+        }
       }
-     const terrain = found ? (found[10]||"").trim() : "";
-const terrainHtml = terrain ? `<span class="match-terrain">${terrain}</span>` : "";
 
-html += `<div class="match-line">
-  <span>${n1}</span>
-  <span class="match-vs">vs</span>
-  <span>${n2}</span>
-  ${scoreHtml}
-  ${resultHtml}
-  ${terrainHtml}
-</div>`;
+      html+=`<div class="match-block${bottomHtml?" has-score":""}">
+        <div class="match-top"><span class="match-eq1">${n1}</span><span class="match-vs">vs</span><span class="match-eq2">${n2}</span></div>
+        ${terrainHtml}${bottomHtml}
+      </div>`;
     });
-    html += `<div class="bye-text">Exempté : ${EQUIPES[j.bye]}</div></div>`;
+
+    html+=`<div class="bye-line">Exempt茅 : ${EQUIPES[j.bye]}</div></div>`;
   });
-  document.getElementById("calendrier-body").innerHTML = html;
+  document.getElementById("calendrier-body").innerHTML=html;
 }
 
-async function fetchCSV(url) {
-  const proxies = [
-    u => u,
-    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}&t=${Date.now()}`,
-    u => `https://cors-anywhere.herokuapp.com/${u}`,
-  ];
-  for (const proxy of proxies) {
-    try {
-      const res = await fetch(proxy(url), {cache: "no-store"});
-      if (!res.ok) continue;
-      const text = await res.text();
-      if (text.length > 10) return text;
-    } catch(e) { continue; }
+async function fetchCSV(url){
+  const proxies=[u=>u,u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}&t=${Date.now()}`];
+  for(const proxy of proxies){
+    try{
+      const res=await fetch(proxy(url),{cache:"no-store"});
+      if(!res.ok)continue;
+      const text=await res.text();
+      if(text.length>20)return text;
+    }catch(e){continue;}
   }
-  throw new Error("Tous les proxys ont échoué");
+  throw new Error("脡chec");
 }
 
-async function loadData() {
-  const url = SHEET_URL;
-  if (!url || url === "COLLER_VOTRE_URL_ICI") {
-    document.getElementById("classement-body").innerHTML =
-      `<tr><td colspan="6" style="text-align:center;color:#aaa;padding:1.5rem;font-size:.82rem">URL non configurée — suivez le tutoriel</td></tr>`;
-    renderCalendrier([]);
-    return;
-  }
-  document.getElementById("config-banner").style.display = "none";
-  try {
-    const text = await fetchCSV(url);
-    const rows = parseCSV(text).slice(1).filter(r => r[0] && r[0].trim());
-    const standings = computeStandings(rows.map(r => [r[2],r[1],r[3],r[4],r[5],r[7],r[8],r[9]]));
-    renderClassement(standings);
-    renderCalendrier(rows.map(r => [r[2],r[1],r[3],r[4],r[5],r[7],r[8],r[9]]));
-    document.getElementById("last-update").textContent = new Date().toLocaleTimeString("fr-FR");
-  } catch(e) {
+async function loadData(){
+  try{
+    const text=await fetchCSV(SHEET_URL);
+    const rows=parseCSV(text).slice(1).filter(r=>r[2]&&r[2].trim());
+    renderClassement(computeStandings(rows));
+    renderCalendrier(rows);
+    document.getElementById("last-update").textContent=new Date().toLocaleTimeString("fr-FR");
+  }catch(e){
     console.error(e);
-    document.getElementById("last-update").textContent = "Erreur de chargement";
+    document.getElementById("last-update").textContent="Erreur de chargement";
   }
 }
 
 loadData();
-setInterval(loadData, 60000);
+setInterval(loadData,60000);
 </script>
 </body>
 </html>
