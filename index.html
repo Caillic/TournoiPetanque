@@ -264,6 +264,24 @@ function renderCalendrier(matchData) {
   document.getElementById("calendrier-body").innerHTML = html;
 }
 
+async function fetchCSV(url) {
+  const proxies = [
+    u => u,
+    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}&t=${Date.now()}`,
+    u => `https://cors-anywhere.herokuapp.com/${u}`,
+  ];
+  for (const proxy of proxies) {
+    try {
+      const res = await fetch(proxy(url), {cache: "no-store"});
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text.length > 10) return text;
+    } catch(e) { continue; }
+  }
+  throw new Error("Tous les proxys ont échoué");
+}
+
 async function loadData() {
   const url = SHEET_URL;
   if (!url || url === "COLLER_VOTRE_URL_ICI") {
@@ -274,9 +292,7 @@ async function loadData() {
   }
   document.getElementById("config-banner").style.display = "none";
   try {
-    const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}&t=${Date.now()}`;
-    const res = await fetch(proxy);
-    const text = await res.text();
+    const text = await fetchCSV(url);
     const rows = parseCSV(text).slice(1).filter(r => r[0] && r[0].trim());
     const standings = computeStandings(rows.map(r => [r[2],r[1],r[3],r[4],r[5],r[7],r[8],r[9]]));
     renderClassement(standings);
