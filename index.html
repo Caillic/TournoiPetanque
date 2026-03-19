@@ -15,8 +15,6 @@
     --lavande:  #EDE7FF;
     --mer:      #5BB8D4;
     --mer-d:    #1A7A9A;
-    --peche:    #FFE8D6;
-    --corail:   #FF8C69;
     --texte:    #2D2D2D;
     --gris:     #8A8A8A;
     --border:   #EDE4D0;
@@ -39,7 +37,6 @@
   .card-header h2 { font-size: .9rem; font-weight: 700; color: var(--mer-d); }
   .card-header span { font-size: .75rem; color: var(--gris); }
 
-  /* Classement */
   table { width: 100%; border-collapse: collapse; font-size: .85rem; }
   th { background: var(--mer-d); color: #fff; padding: 8px 10px; text-align: center; font-weight: 600; font-size: .75rem; letter-spacing: .3px; }
   th:first-child { text-align: left; padding-left: 14px; }
@@ -53,7 +50,6 @@
   .rank-num { color: var(--gris); font-size: .75rem; min-width: 18px; display: inline-block; }
   .badge-finale { display: inline-block; background: var(--soleil); color: #7A4800; font-size: .65rem; padding: 1px 7px; border-radius: 10px; margin-left: 5px; font-weight: 700; vertical-align: middle; }
 
-  /* Finale */
   .finale-card { background: linear-gradient(135deg, #5BB8D4, #3DAA6A); color: #fff; border-radius: 14px; padding: 1.3rem 1.5rem; text-align: center; }
   .finale-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
   .finale-card p  { font-size: .85rem; opacity: .9; }
@@ -61,7 +57,6 @@
   .finalist-name { font-size: .95rem; font-weight: 700; background: rgba(255,255,255,.2); padding: 6px 16px; border-radius: 8px; }
   .vs-sep { font-size: .75rem; opacity: .7; }
 
-  /* Calendrier */
   .journee { padding: .9rem 1rem; border-bottom: 1px solid #F0E8D0; }
   .journee:last-child { border-bottom: none; }
   .journee-titre { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -72,18 +67,15 @@
   .match-block.has-score { background: var(--blanc); border-color: #E8D898; }
   .match-block:last-of-type { margin-bottom: 0; }
 
-  /* Ligne équipes */
   .match-top { display: flex; align-items: center; gap: 6px; padding: 8px 12px 4px; }
   .match-eq1 { font-weight: 700; font-size: .88rem; flex: 1; text-align: right; color: var(--texte); }
   .match-vs  { color: var(--gris); font-size: .72rem; flex-shrink: 0; padding: 0 3px; }
   .match-eq2 { font-weight: 700; font-size: .88rem; flex: 1; color: var(--texte); }
 
-  /* Terrain */
   .terrain-wrap { display: flex; justify-content: center; padding: 0 12px 5px; }
   .terrain-badge { font-size: .68rem; padding: 2px 10px; border-radius: 10px; background: var(--ciel); color: var(--mer-d); font-weight: 500; }
   .terrain-badge.dom { background: var(--menthe); color: var(--menthe-d); font-weight: 700; }
 
-  /* Scores */
   .match-bottom { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 4px 12px 8px; flex-wrap: wrap; }
   .score-grp { display: flex; align-items: center; gap: 5px; }
   .score-lbl { font-size: .65rem; color: var(--gris); letter-spacing: .3px; text-transform: uppercase; }
@@ -93,8 +85,8 @@
   .mene-sep { color: #D0C8B0; font-size: 1rem; margin: 0 2px; }
 
   .res-badge { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
-  .res-v    { background: var(--menthe); color: var(--menthe-d); }
-  .res-nul  { background: var(--lavande); color: #5E35B1; }
+  .res-v   { background: var(--menthe); color: var(--menthe-d); }
+  .res-nul { background: var(--lavande); color: #5E35B1; }
 
   .bye-line { font-size: .75rem; color: var(--gris); font-style: italic; margin-top: 6px; padding-left: 2px; }
   .refresh-bar { text-align: center; font-size: .72rem; color: var(--gris); padding: .5rem; }
@@ -137,7 +129,7 @@
       <span class="vs-sep">VS</span>
       <span class="finalist-name" id="fin2">2e de ligue</span>
     </div>
-    <p>Terrain Annealsys &nbsp;·&nbsp;📍 </p>
+    <p>Terrain Annealsys &nbsp;·&nbsp; 📍</p>
   </div>
 
   <div class="card">
@@ -150,141 +142,189 @@
     </div>
   </div>
 
-    <div class="refresh-bar">Auto 30 s · Dernière : <span id="last-update">—</span> &nbsp;·&nbsp; <button id="refresh-btn" onclick="loadData()" style="background:var(--vert);color:#fff;border:none;border-radius:20px;padding:4px 16px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">↻ Actualiser</button></div>
+  <div class="refresh-bar">
+    Auto 30 s · Dernière : <span id="last-update">—</span>
+    &nbsp;·&nbsp;
+    <button id="refresh-btn" onclick="loadData()" style="background:var(--menthe-d);color:#fff;border:none;border-radius:20px;padding:4px 16px;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600">↻ Actualiser</button>
+  </div>
 
 </main>
 
 <script>
-const SHEET_URL = "const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHrRVo487HmpBLvZ2BYj1ImgPTDGaOyNQT-yOqp1_efyqACDhZXFQWYGPwkz9QzH6NDNhP1UGx-ZIC/pub?gid=163485932&single=true&output=csv";";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHrRVo487HmpBLvZ2BYj1ImgPTDGaOyNQT-yOqp1_efyqACDhZXFQWYGPwkz9QzH6NDNhP1UGx-ZIC/pub?gid=163485932&single=true&output=csv";
 
 const EQUIPES = ["Annealsys","I2A ⭐⭐","Aromandise","Capelec","Quantum","APF ⭐","Diadom"];
 const TERRAINS_DOM = {
-  "Annealsys":"Terrain Annealsys","I2A":"Terrain I2A",
-  "Aromandise":"Terrain Aromandise","Quantum":"Terrain Quantum","APF":"Terrain APF"
+  "Annealsys":   "Terrain Annealsys",
+  "I2A ⭐⭐":     "Terrain I2A",
+  "Aromandise":  "Terrain Aromandise",
+  "Quantum":     "Terrain Quantum",
+  "APF ⭐":      "Terrain APF"
 };
 
 function buildRR() {
-  const n=7,journees=[],teams=[...Array(n).keys()];
-  for(let r=0;r<n;r++){
-    const bye=r,rest=teams.filter(t=>t!==bye);
-    journees.push({bye,matches:Array.from({length:(n-1)/2},(_,i)=>[rest[i],rest[n-2-i]])});
+  const t = [0,1,2,3,4,5,6,"G"];
+  const schedule = [];
+  for (let round = 0; round < 7; round++) {
+    const matches = []; let bye = null;
+    for (let i = 0; i < 4; i++) {
+      const h = t[i], a = t[7-i];
+      if (h === "G") bye = a;
+      else if (a === "G") bye = h;
+      else matches.push([h, a]);
+    }
+    schedule.push({ bye, matches });
+    t.splice(1, 0, t.pop());
   }
-  return journees;
+  return schedule;
 }
 
-const FERIES=new Set(["2025-11-01","2025-11-11","2026-01-01","2026-04-13","2026-05-01","2026-05-08","2026-05-21","2026-06-01"]);
+const FERIES = new Set(["2025-11-01","2025-11-11","2026-01-01","2026-04-13","2026-05-01","2026-05-08","2026-05-21","2026-06-01"]);
 
-function buildDates(){
-  const dates=[];let d=new Date("2026-06-12T12:00:00Z");
-  while(dates.length<7){d=new Date(d-7*864e5);if(!FERIES.has(d.toISOString().slice(0,10)))dates.unshift(new Date(d));}
+function buildDates() {
+  const dates = [];
+  let d = new Date("2026-06-11T12:00:00Z");
+  while (dates.length < 7) {
+    d = new Date(d - 7*864e5);
+    if (!FERIES.has(d.toISOString().slice(0,10))) dates.unshift(new Date(d));
+  }
   return dates;
 }
 
-const JOURNEES=buildRR(), DATES=buildDates();
+const JOURNEES = buildRR();
+const DATES    = buildDates();
 
-function fmt(d){return d.toLocaleDateString("fr-FR",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});}
-function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):"";}
+function fmt(d) { return d.toLocaleDateString("fr-FR",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}); }
+function cap(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : ""; }
 
-function parseCSV(text){
-  return text.trim().split("\n").map(line=>{
-    const cols=[];let cur="",inQ=false;
-    for(const ch of line){
-      if(ch==='"'){inQ=!inQ;}
-      else if(ch===','&&!inQ){cols.push(cur.trim());cur="";}
-      else cur+=ch;
+function parseCSV(text) {
+  return text.trim().split("\n").map(line => {
+    const cols = []; let cur = "", inQ = false;
+    for (const ch of line) {
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ""; }
+      else cur += ch;
     }
-    cols.push(cur.trim());return cols;
+    cols.push(cur.trim());
+    return cols;
   });
 }
 
-// Colonnes : 0=J | 1=Date | 2=Éq1 | 3=M1Éq1 | 4=M1Éq2 | 5=M2Éq1 | 6=M2Éq2 | 7=Éq2 | 8=Résultat | 9=Terrain | 10=Exempté
-
-function computeStandings(rows){
-  const stats={};
-  EQUIPES.forEach(e=>stats[e]={pts:0,v:0,n:0,d:0,mj:0});
-  rows.forEach(r=>{
-    const eq1=(r[2]||"").trim(),eq2=(r[7]||"").trim(),res=(r[8]||"").trim();
-    if(!res||!stats[eq1]||!stats[eq2])return;
-    stats[eq1].mj++;stats[eq2].mj++;
-    if(res==="V "+eq1){stats[eq1].pts+=3;stats[eq1].v++;stats[eq2].d++;}
-    else if(res==="V "+eq2){stats[eq2].pts+=3;stats[eq2].v++;stats[eq1].d++;}
-    else if(res.toLowerCase()==="nul"){stats[eq1].pts++;stats[eq1].n++;stats[eq2].pts++;stats[eq2].n++;}
+function computeStandings(rows) {
+  const stats = {};
+  EQUIPES.forEach(e => stats[e] = {pts:0,v:0,n:0,d:0,mj:0});
+  rows.forEach(r => {
+    const eq1 = (r[2]||"").trim();
+    const eq2 = (r[7]||"").trim();
+    const res  = (r[8]||"").trim();
+    if (!res || !stats[eq1] || !stats[eq2]) return;
+    stats[eq1].mj++; stats[eq2].mj++;
+    if      (res === "V "+eq1)            { stats[eq1].pts+=3; stats[eq1].v++; stats[eq2].d++; }
+    else if (res === "V "+eq2)            { stats[eq2].pts+=3; stats[eq2].v++; stats[eq1].d++; }
+    else if (res.toLowerCase() === "nul") { stats[eq1].pts++; stats[eq1].n++; stats[eq2].pts++; stats[eq2].n++; }
   });
-  return EQUIPES.map(e=>({name:e,...stats[e]})).sort((a,b)=>b.pts-a.pts||b.v-a.v);
+  return EQUIPES.map(e => ({name:e,...stats[e]})).sort((a,b) => b.pts-a.pts || b.v-a.v);
 }
 
-function renderClassement(standings){
-  document.getElementById("classement-body").innerHTML=standings.map((s,i)=>{
-    const fin=i<2?"finalist":"";
-    const badge=i<2?`<span class="badge-finale">Finale</span>`:"";
-    return`<tr class="${fin}"><td><span class="rank-num">${i+1}.</span> ${s.name}${badge}</td><td>${s.mj}</td><td>${s.v}</td><td>${s.n}</td><td>${s.d}</td><td class="pts-val">${s.pts}</td></tr>`;
+function renderClassement(standings) {
+  document.getElementById("classement-body").innerHTML = standings.map((s,i) => {
+    const fin   = i < 2 ? "finalist" : "";
+    const badge = i < 2 ? '<span class="badge-finale">Finale</span>' : "";
+    return '<tr class="'+fin+'">'
+      +'<td><span class="rank-num">'+(i+1)+'.</span> '+s.name+badge+'</td>'
+      +'<td>'+s.mj+'</td><td>'+s.v+'</td><td>'+s.n+'</td><td>'+s.d+'</td>'
+      +'<td class="pts-val">'+s.pts+'</td></tr>';
   }).join("");
-  if(standings[0]?.mj>0)document.getElementById("fin1").textContent=standings[0].name;
-  if(standings[1]?.mj>0)document.getElementById("fin2").textContent=standings[1].name;
-  const played=standings.reduce((a,s)=>a+s.mj,0)/2;
-  document.getElementById("classement-info").textContent=`${Math.round(played)}/21 matchs joués`;
+  if (standings[0]?.mj > 0) document.getElementById("fin1").textContent = standings[0].name;
+  if (standings[1]?.mj > 0) document.getElementById("fin2").textContent = standings[1].name;
+  const played = standings.reduce((a,s) => a+s.mj, 0) / 2;
+  document.getElementById("classement-info").textContent = Math.round(played)+"/21 matchs joués";
 }
 
-function renderCalendrier(rows){
-  const data={};
-  rows.forEach(r=>{
-    const eq1=(r[2]||"").trim(),eq2=(r[7]||"").trim();
-    if(eq1&&eq2)data[eq1+"|"+eq2]=r;
+function renderCalendrier(rows) {
+  const data = {};
+  rows.forEach(r => {
+    const eq1 = (r[2]||"").trim(), eq2 = (r[7]||"").trim();
+    if (eq1 && eq2) data[eq1+"|"+eq2] = r;
   });
 
-  let html="";
-  JOURNEES.forEach((j,ji)=>{
-    html+=`<div class="journee"><div class="journee-titre"><span class="j-badge">J${ji+1}</span><span class="j-date">${cap(fmt(DATES[ji]))}</span></div>`;
+  let html = "";
+  JOURNEES.forEach((j, ji) => {
+    html += '<div class="journee">'
+          + '<div class="journee-titre">'
+          + '<span class="j-badge">J'+(ji+1)+'</span>'
+          + '<span class="j-date">'+cap(fmt(DATES[ji]))+'</span>'
+          + '</div>';
 
-    j.matches.forEach(([e1i,e2i])=>{
-      const n1=EQUIPES[e1i],n2=EQUIPES[e2i];
-      const row=data[n1+"|"+n2]||data[n2+"|"+n1]||null;
-      const flipped=row&&(row[2]||"").trim()===n2;
+    j.matches.forEach(([e1i, e2i]) => {
+      const n1  = EQUIPES[e1i], n2 = EQUIPES[e2i];
+      const row = data[n1+"|"+n2] || data[n2+"|"+n1] || null;
+      const flipped = row && (row[2]||"").trim() === n2;
 
       // Terrain
-      const terrain=row?(row[9]||"").trim():"";
-      const isDom=terrain&&(TERRAINS_DOM[n1]===terrain||TERRAINS_DOM[n2]===terrain);
-      const terrainHtml=terrain
-        ?`<div class="terrain-wrap"><span class="terrain-badge${isDom?" dom":""}">${isDom?"★ ":"📍 "}${terrain}</span></div>`
-        :"";
+      const terrain = row ? (row[9]||"").trim() : "";
+      const isDom   = terrain && (TERRAINS_DOM[n1]===terrain || TERRAINS_DOM[n2]===terrain);
+      const terrainHtml = terrain
+        ? '<div class="terrain-wrap"><span class="terrain-badge'+(isDom?" dom":"")+'">'+( isDom ? "★ " : "📍 ")+terrain+'</span></div>'
+        : "";
 
       // Scores
-      let bottomHtml="";
-      if(row){
-        const get=(i)=>(row[i]||"").trim();
-        const m1l=flipped?get(4):get(3), m1r=flipped?get(3):get(4);
-        const m2l=flipped?get(6):get(5), m2r=flipped?get(5):get(6);
-        const res=get(8);
-        const hasScore=m1l!==""||m1r!=="";
-        if(hasScore){
-          let resBadge="";
-          if(res){
-            const low=res.toLowerCase();
-            if(low==="nul"){resBadge=`<span class="res-badge res-nul">Nul</span>`;}
-            else{const w=res.replace(/^V\s*/i,"").trim();resBadge=`<span class="res-badge res-v">Victoire ${w}</span>`;}
+      let bottomHtml = "";
+      if (row) {
+        const get = i => (row[i]||"").trim();
+        const m1l = flipped ? get(4) : get(3);
+        const m1r = flipped ? get(3) : get(4);
+        const m2l = flipped ? get(6) : get(5);
+        const m2r = flipped ? get(5) : get(6);
+        const res = get(8);
+        if (m1l !== "" || m1r !== "") {
+          let resBadge = "";
+          if (res) {
+            if (res.toLowerCase() === "nul") {
+              resBadge = '<span class="res-badge res-nul">Nul</span>';
+            } else {
+              const w = res.replace(/^V\s*/i,"").trim();
+              resBadge = '<span class="res-badge res-v">Victoire '+w+'</span>';
+            }
           }
-          bottomHtml=`<div class="match-bottom">
-            <span class="score-grp"><span class="score-lbl">M1</span><span class="score-pair"><span class="score-box">${m1l||"—"}</span><span class="score-dash">–</span><span class="score-box">${m1r||"—"}</span></span></span>
-            <span class="mene-sep">|</span>
-            <span class="score-grp"><span class="score-lbl">M2</span><span class="score-pair"><span class="score-box">${m2l||"—"}</span><span class="score-dash">–</span><span class="score-box">${m2r||"—"}</span></span></span>
-            ${resBadge}
-          </div>`;
+          bottomHtml = '<div class="match-bottom">'
+            +'<span class="score-grp"><span class="score-lbl">M1</span>'
+            +'<span class="score-pair">'
+            +'<span class="score-box">'+(m1l||"—")+'</span>'
+            +'<span class="score-dash">–</span>'
+            +'<span class="score-box">'+(m1r||"—")+'</span>'
+            +'</span></span>'
+            +'<span class="mene-sep">|</span>'
+            +'<span class="score-grp"><span class="score-lbl">M2</span>'
+            +'<span class="score-pair">'
+            +'<span class="score-box">'+(m2l||"—")+'</span>'
+            +'<span class="score-dash">–</span>'
+            +'<span class="score-box">'+(m2r||"—")+'</span>'
+            +'</span></span>'
+            +resBadge
+            +'</div>';
         }
       }
 
-      html+=`<div class="match-block${bottomHtml?" has-score":""}">
-        <div class="match-top"><span class="match-eq1">${n1}</span><span class="match-vs">vs</span><span class="match-eq2">${n2}</span></div>
-        ${terrainHtml}${bottomHtml}
-      </div>`;
+      html += '<div class="match-block'+(bottomHtml?" has-score":"")+'">'
+        +'<div class="match-top">'
+        +'<span class="match-eq1">'+n1+'</span>'
+        +'<span class="match-vs">vs</span>'
+        +'<span class="match-eq2">'+n2+'</span>'
+        +'</div>'
+        +terrainHtml
+        +bottomHtml
+        +'</div>';
     });
 
-    html+=`<div class="bye-line">Exempté : ${EQUIPES[j.bye]}</div></div>`;
+    html += '<div class="bye-line">Exempté : '+EQUIPES[j.bye]+'</div></div>';
   });
-  document.getElementById("calendrier-body").innerHTML=html;
+
+  document.getElementById("calendrier-body").innerHTML = html;
 }
 
 async function fetchCSV(url) {
-  const bust = "&cachebust=" + Date.now() + "_" + Math.random();
+  const bust  = "&cachebust=" + Date.now() + "_" + Math.random();
   const fresh = url + bust;
   const proxies = [
     u => u,
@@ -295,7 +335,7 @@ async function fetchCSV(url) {
     try {
       const res = await fetch(proxy(fresh), {
         cache: "no-store",
-        headers: {"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache"}
+        headers: {"Cache-Control":"no-cache, no-store, must-revalidate","Pragma":"no-cache"}
       });
       if (!res.ok) continue;
       const text = await res.text();
@@ -306,22 +346,13 @@ async function fetchCSV(url) {
 }
 
 async function loadData() {
-  const url = SHEET_URL;
-  if (!url || url === "COLLER_VOTRE_URL_ICI") {
-    document.getElementById("classement-body").innerHTML =
-      "<tr><td colspan='6' style='text-align:center;color:#aaa;padding:1.5rem;font-size:.82rem'>URL non configurée</td></tr>";
-    renderCalendrier([]);
-    return;
-  }
-  document.getElementById("config-banner").style.display = "none";
   const btn = document.getElementById("refresh-btn");
   if (btn) { btn.textContent = "…"; btn.disabled = true; }
   try {
-    const text = await fetchCSV(url);
+    const text = await fetchCSV(SHEET_URL);
     const rows = parseCSV(text).slice(1).filter(r => r[0] && r[0].trim());
-    const data = rows.map(r => [r[2],r[1],r[3],r[4],r[5],r[7],r[8],r[9],r[10]]);
-    renderClassement(computeStandings(data));
-    renderCalendrier(data);
+    renderClassement(computeStandings(rows));
+    renderCalendrier(rows);
     document.getElementById("last-update").textContent = new Date().toLocaleTimeString("fr-FR");
     if (btn) { btn.textContent = "↻ Actualiser"; btn.disabled = false; }
   } catch(e) {
@@ -336,4 +367,3 @@ setInterval(loadData, 30000);
 </script>
 </body>
 </html>
-
