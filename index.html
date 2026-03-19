@@ -54,7 +54,7 @@
   .match-line { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: .82rem; }
   .match-vs { color: var(--secondaire); font-size: .75rem; flex-shrink: 0; }
   .match-score { font-weight: 700; font-size: .85rem; color: var(--vert); background: var(--vert-c); padding: 1px 8px; border-radius: 6px; }
-  .match-result { font-size: .72rem; color: var(--secondaire); margin-left: auto; font-style: italic; }
+  .match-result { font-size: .72rem; color: #5D4037; background: #EFEBE9; padding: 1px 7px; border-radius: 6px; margin-left: 4px; }
   .bye-text { font-size: .75rem; color: var(--secondaire); font-style: italic; margin-top: 4px; }
 
   /* Finale */
@@ -251,13 +251,17 @@ function renderCalendrier(matchData) {
         if (m1e1) scoreHtml = `<span class="match-score">${m1e1}+${m2e1||"?"} — ${m1e2}+${m2e2||"?"}</span>`;
         if (r) resultHtml = `<span class="match-result">${r}</span>`;
       }
-      html += `<div class="match-line">
-        <span>${n1}</span>
-        <span class="match-vs">vs</span>
-        <span>${n2}</span>
-        ${scoreHtml}
-        ${resultHtml}
-      </div>`;
+     const terrain = found ? (found[10]||"").trim() : "";
+const terrainHtml = terrain ? `<span class="match-terrain">${terrain}</span>` : "";
+
+html += `<div class="match-line">
+  <span>${n1}</span>
+  <span class="match-vs">vs</span>
+  <span>${n2}</span>
+  ${scoreHtml}
+  ${resultHtml}
+  ${terrainHtml}
+</div>`;
     });
     html += `<div class="bye-text">Exempté : ${EQUIPES[j.bye]}</div></div>`;
   });
