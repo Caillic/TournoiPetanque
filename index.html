@@ -263,11 +263,13 @@ function renderCalendrier(rows) {
 
       // Terrain
       const terrain = row ? (row[9]||"").trim() : "";
-      const isDom   = terrain && (TERRAINS_DOM[n1]===terrain || TERRAINS_DOM[n2]===terrain);
+      const n1clean = n1.replace(/⭐/g,"").trim();
+const n2clean = n2.replace(/⭐/g,"").trim();
+const isDom   = terrain && (TERRAINS_DOM[n1clean]===terrain || TERRAINS_DOM[n2clean]===terrain);
       const terrainHtml = terrain
         ? '<div class="terrain-wrap"><span class="terrain-badge'+(isDom?" dom":"")+'">'+( isDom ? "★ " : "📍 ")+terrain+'</span></div>'
         : "";
-
+      
       // Scores
       let bottomHtml = "";
       if (row) {
