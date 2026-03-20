@@ -101,6 +101,8 @@
 </head>
 <body>
 
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999"></canvas>
+
 <header>
   <h1>☀️🏆 Ligue de pétanque 2026 🏆☀️</h1>
   <p>Annealsys · I2A ⭐⭐ · Aromandise · Capelec · Quantum · APF ⭐ · Diadom</p>
@@ -122,22 +124,20 @@
     </table>
   </div>
 
-  <div class="finale-card">
   <div class="finale-card" id="finale-card">
-  <h2>🏆 Finale — 12 juin 2026</h2>
-  <div id="finale-attente">
-    <p style="font-size:1rem;opacity:.9;margin:.6rem 0">Les finalistes seront connus à l'issue des 7 journées</p>
-    <p id="finale-compteur" style="font-size:.85rem;opacity:.7">— matchs joués sur 21</p>
-  </div>
-  <div id="finale-reveal" style="display:none">
-    <div class="vs-block">
-      <span class="finalist-name" id="fin1">1er de ligue</span>
-      <span class="vs-sep">VS</span>
-      <span class="finalist-name" id="fin2">2e de ligue</span>
+    <h2>🏆 Finale — 12 juin 2026</h2>
+    <div id="finale-attente">
+      <p style="font-size:1rem;opacity:.9;margin:.6rem 0">Les finalistes seront connus à l'issue des 7 journées</p>
+      <p id="finale-compteur" style="font-size:.85rem;opacity:.7">— matchs joués sur 21</p>
     </div>
-    <p>Terrain Annealsys &nbsp;·&nbsp; 📍</p>
-  </div>
-</div>
+    <div id="finale-reveal" style="display:none">
+      <div class="vs-block">
+        <span class="finalist-name" id="fin1">1er de ligue</span>
+        <span class="vs-sep">VS</span>
+        <span class="finalist-name" id="fin2">2e de ligue</span>
+      </div>
+      <p>Terrain Annealsys &nbsp;·&nbsp; 📍</p>
+    </div>
   </div>
 
   <div class="card">
@@ -160,6 +160,7 @@
 
 <script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHrRVo487HmpBLvZ2BYj1ImgPTDGaOyNQT-yOqp1_efyqACDhZXFQWYGPwkz9QzH6NDNhP1UGx-ZIC/pub?gid=1832929235&single=true&output=csv";
+
 const EQUIPES = ["Annealsys","I2A ⭐⭐","Aromandise","Capelec","Quantum","APF ⭐","Diadom"];
 const TERRAINS_DOM = {
   "Annealsys":  "Annealsys",
@@ -219,18 +220,29 @@ function parseCSV(text) {
 
 function computeStandings(rows) {
   const stats = {};
-  EQUIPES.forEach(e => stats[e] = {pts:0,v:0,n:0,d:0,mj:0});
+  EQUIPES.forEach(e => stats[e] = {pts:0,v:0,n:0,d:0,mj:0,pf:0,pc:0});
   rows.forEach(r => {
     const eq1 = (r[2]||"").trim();
     const eq2 = (r[7]||"").trim();
     const res  = (r[8]||"").trim();
     if (!res || !stats[eq1] || !stats[eq2]) return;
+
+    // Goal-average : somme des points marqués dans les mènes
+    const m1e1 = parseInt(r[3])||0, m1e2 = parseInt(r[4])||0;
+    const m2e1 = parseInt(r[5])||0, m2e2 = parseInt(r[6])||0;
+    stats[eq1].pf += m1e1 + m2e1;  // points marqués
+    stats[eq1].pc += m1e2 + m2e2;  // points encaissés
+    stats[eq2].pf += m1e2 + m2e2;
+    stats[eq2].pc += m1e1 + m2e1;
+
     stats[eq1].mj++; stats[eq2].mj++;
     if      (res === "V "+eq1)            { stats[eq1].pts+=3; stats[eq1].v++; stats[eq2].d++; }
     else if (res === "V "+eq2)            { stats[eq2].pts+=3; stats[eq2].v++; stats[eq1].d++; }
     else if (res.toLowerCase() === "nul") { stats[eq1].pts++; stats[eq1].n++; stats[eq2].pts++; stats[eq2].n++; }
   });
-  return EQUIPES.map(e => ({name:e,...stats[e]})).sort((a,b) => b.pts-a.pts || b.v-a.v);
+  // Tri : 1. points  2. victoires  3. goal-average (pf - pc)
+  return EQUIPES.map(e => ({name:e,...stats[e]}))
+    .sort((a,b) => b.pts-a.pts || b.v-a.v || (b.pf-b.pc)-(a.pf-a.pc));
 }
 
 function renderClassement(standings) {
@@ -242,26 +254,21 @@ function renderClassement(standings) {
       +'<td>'+s.mj+'</td><td>'+s.v+'</td><td>'+s.n+'</td><td>'+s.d+'</td>'
       +'<td class="pts-val">'+s.pts+'</td></tr>';
   }).join("");
-const played = standings.reduce((a,s) => a+s.mj, 0) / 2;
-const total  = Math.round(played);
-document.getElementById("classement-info").textContent = total+"/21 matchs joués";
-document.getElementById("finale-compteur").textContent = total+" matchs joués sur 21";
 
-if (total === 21) {
-  // Tous les matchs joués → révéler les finalistes
-  document.getElementById("finale-attente").style.display = "none";
-  document.getElementById("finale-reveal").style.display  = "block";
-  if (standings[0]) document.getElementById("fin1").textContent = standings[0].name;
-  if (standings[1]) document.getElementById("fin2").textContent = standings[1].name;
-  lancerConfettis();
-} else {
-  // Pas encore terminé → cacher les finalistes
-  document.getElementById("finale-attente").style.display = "block";
-  document.getElementById("finale-reveal").style.display  = "none";
-}
-  const played = standings.reduce((a,s) => a+s.mj, 0) / 2;
-  document.getElementById("classement-info").textContent = Math.round(played)+"/21 matchs joués";
-  
+  const total = Math.round(standings.reduce((a,s) => a+s.mj, 0) / 2);
+  document.getElementById("classement-info").textContent = total+"/21 matchs joués";
+  document.getElementById("finale-compteur").textContent = total+" matchs joués sur 21";
+
+  if (total === 21) {
+    document.getElementById("finale-attente").style.display = "none";
+    document.getElementById("finale-reveal").style.display  = "block";
+    if (standings[0]) document.getElementById("fin1").textContent = standings[0].name;
+    if (standings[1]) document.getElementById("fin2").textContent = standings[1].name;
+    lancerConfettis();
+  } else {
+    document.getElementById("finale-attente").style.display = "block";
+    document.getElementById("finale-reveal").style.display  = "none";
+  }
 }
 
 function renderCalendrier(rows) {
@@ -285,13 +292,14 @@ function renderCalendrier(rows) {
       const flipped = row && (row[2]||"").trim() === n2;
 
       // Terrain
-const terrain  = row ? (row[9]||"").trim() : "";
-const n1clean  = n1.replace(/⭐/g,"").replace(/\s+/g," ").trim();
-const n2clean  = n2.replace(/⭐/g,"").replace(/\s+/g," ").trim();
-const isDom    = terrain && (TERRAINS_DOM[n1clean]===terrain || TERRAINS_DOM[n2clean]===terrain);
-const terrainHtml = terrain
-  ? '<div class="terrain-wrap"><span class="terrain-badge'+(isDom?" dom":"")+'">'+( isDom ? "★ " : "📍 ")+terrain+'</span></div>'
-  : "";
+      const terrain  = row ? (row[9]||"").trim() : "";
+      const n1clean  = n1.replace(/⭐/g,"").replace(/\s+/g," ").trim();
+      const n2clean  = n2.replace(/⭐/g,"").replace(/\s+/g," ").trim();
+      const isDom    = terrain && (TERRAINS_DOM[n1clean]===terrain || TERRAINS_DOM[n2clean]===terrain);
+      const terrainHtml = terrain
+        ? '<div class="terrain-wrap"><span class="terrain-badge'+(isDom?" dom":"")+'">'+( isDom ? "★ " : "📍 ")+terrain+'</span></div>'
+        : "";
+
       // Scores
       let bottomHtml = "";
       if (row) {
@@ -336,8 +344,7 @@ const terrainHtml = terrain
         +'<span class="match-vs">vs</span>'
         +'<span class="match-eq2">'+n2+'</span>'
         +'</div>'
-        +terrainHtml
-        +bottomHtml
+        +terrainHtml+bottomHtml
         +'</div>';
     });
 
@@ -347,27 +354,6 @@ const terrainHtml = terrain
   document.getElementById("calendrier-body").innerHTML = html;
 }
 
-async function fetchCSV(url) {
-  const bust  = "&cachebust=" + Date.now() + "_" + Math.random();
-  const fresh = url + bust;
-  const proxies = [
-    u => u,
-    u => "https://corsproxy.io/?" + encodeURIComponent(u),
-    u => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
-  ];
-  for (const proxy of proxies) {
-    try {
-      const res = await fetch(proxy(fresh), {
-        cache: "no-store",
-        headers: {"Cache-Control":"no-cache, no-store, must-revalidate","Pragma":"no-cache"}
-      });
-      if (!res.ok) continue;
-      const text = await res.text();
-      if (text.length > 10) return text;
-    } catch(e) { continue; }
-  }
-  throw new Error("Chargement échoué");
-}
 function lancerConfettis() {
   const canvas = document.getElementById("confetti-canvas");
   if (!canvas || canvas.dataset.done) return;
@@ -403,6 +389,29 @@ function lancerConfettis() {
   }
   draw();
 }
+
+async function fetchCSV(url) {
+  const bust  = "&cachebust=" + Date.now() + "_" + Math.random();
+  const fresh = url + bust;
+  const proxies = [
+    u => u,
+    u => "https://corsproxy.io/?" + encodeURIComponent(u),
+    u => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
+  ];
+  for (const proxy of proxies) {
+    try {
+      const res = await fetch(proxy(fresh), {
+        cache: "no-store",
+        headers: {"Cache-Control":"no-cache, no-store, must-revalidate","Pragma":"no-cache"}
+      });
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text.length > 10) return text;
+    } catch(e) { continue; }
+  }
+  throw new Error("Chargement échoué");
+}
+
 async function loadData() {
   const btn = document.getElementById("refresh-btn");
   if (btn) { btn.textContent = "…"; btn.disabled = true; }
@@ -423,6 +432,5 @@ async function loadData() {
 loadData();
 setInterval(loadData, 30000);
 </script>
-  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999"></canvas>
 </body>
 </html>
